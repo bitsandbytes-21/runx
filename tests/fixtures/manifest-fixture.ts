@@ -118,7 +118,12 @@ export function makeManifest(overrides: Partial<Manifest> = {}): Manifest {
       durationSec: 10,
       beat: "encourage",
     }),
-    makeScene({ id: "x01", type: "signoff", part: "epilogue", durationSec: 30 }),
+    makeScene({
+      id: "x01",
+      type: "signoff",
+      part: "epilogue",
+      durationSec: 30,
+    }),
     ...(["CP1", "CP2", "CP3"] as const).flatMap((cp, index) => [
       makeScene({
         id: `r0${index + 1}`,

@@ -35,9 +35,9 @@ describe("validateManifest", () => {
   it("rejects duplicate scene ids", () => {
     const manifest = makeManifest();
     const copy = { ...manifest.scenes[1], order: 99 };
-    expect(errorCodes({ ...manifest, scenes: [...manifest.scenes, copy] })).toContain(
-      "duplicate_id",
-    );
+    expect(
+      errorCodes({ ...manifest, scenes: [...manifest.scenes, copy] }),
+    ).toContain("duplicate_id");
   });
 
   it("rejects duplicate line ids across scenes", () => {
@@ -68,7 +68,9 @@ describe("validateManifest", () => {
 
   it("rejects zero or negative durations", () => {
     expect(
-      errorCodes(withScene(makeManifest(), "s02", (s) => ({ ...s, durationSec: -5 }))),
+      errorCodes(
+        withScene(makeManifest(), "s02", (s) => ({ ...s, durationSec: -5 })),
+      ),
     ).toContain("negative_duration");
     const zeroLine = withScene(makeManifest(), "s02", (scene) => ({
       ...scene,
@@ -79,7 +81,9 @@ describe("validateManifest", () => {
 
   it("rejects a scene without a transcript", () => {
     expect(
-      errorCodes(withScene(makeManifest(), "s04", (s) => ({ ...s, lines: [] }))),
+      errorCodes(
+        withScene(makeManifest(), "s04", (s) => ({ ...s, lines: [] })),
+      ),
     ).toContain("missing_transcript");
     const blank = withScene(makeManifest(), "s04", (scene) => ({
       ...scene,
