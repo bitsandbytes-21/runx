@@ -12,17 +12,27 @@ const sql = readdirSync(MIGRATIONS)
   .join("\n");
 
 describe("database schema", () => {
-  it.each(["profiles", "episodes", "scenes", "progress"])("creates %s with row-level security", (table) => {
-    expect(sql).toMatch(new RegExp(`create table public\\.${table}\\b`, "i"));
-    expect(sql).toMatch(new RegExp(`alter table public\\.${table} enable row level security`, "i"));
-  });
+  it.each(["profiles", "episodes", "scenes", "progress"])(
+    "creates %s with row-level security",
+    (table) => {
+      expect(sql).toMatch(new RegExp(`create table public\\.${table}\\b`, "i"));
+      expect(sql).toMatch(
+        new RegExp(
+          `alter table public\\.${table} enable row level security`,
+          "i",
+        ),
+      );
+    },
+  );
 
   it("limits progress rows to their owner", () => {
     expect(sql).toMatch(/on public\.progress[\s\S]*?auth\.uid\(\) = user_id/i);
   });
 
   it("stores roles as runner or editor only", () => {
-    expect(sql).toMatch(/role text not null default 'runner' check \(role in \('runner', 'editor'\)\)/i);
+    expect(sql).toMatch(
+      /role text not null default 'runner' check \(role in \('runner', 'editor'\)\)/i,
+    );
   });
 
   it("ships a seed file that matches the Ep1 manifest", () => {
