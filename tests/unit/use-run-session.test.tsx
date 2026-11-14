@@ -17,13 +17,15 @@ function setup(speed = 1) {
   const hook = renderHook(() =>
     useRunSession({ manifest, timeline, audio, clock, speed }),
   );
-  const advance = (ms: number) =>
-    act(() => {
-      for (let t = 0; t < ms; t += 250) {
+  // One act() per tick so React runs effects (and starts the next line) in between.
+  const advance = (ms: number) => {
+    for (let t = 0; t < ms; t += 250) {
+      act(() => {
         nowMs += 250;
         vi.advanceTimersByTime(250);
-      }
-    });
+      });
+    }
+  };
   return { hook, advance };
 }
 

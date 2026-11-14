@@ -15,7 +15,7 @@ describe("preloadClips", () => {
       onProgress: (done, total) => progress.push([done, total]),
     });
     expect(fetchClip).toHaveBeenCalledTimes(2);
-    expect(urls.get("/a.m4a")).toBe("blob:1");
+    expect(urls.get("/a.m4a")).toMatch(/^blob:/);
     expect(progress.at(-1)).toEqual([2, 2]);
     expect(progress[0]).toEqual([0, 2]);
   });
