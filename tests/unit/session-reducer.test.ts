@@ -86,7 +86,7 @@ describe("sessionReducer", () => {
   });
 
   it("plays lines in order, waits through silence, then starts the next scene", () => {
-    let state = endCurrentLine(startSession());
+    let state = endCurrentLine(startSession(6));
     expect(currentLine(state)?.id).toBe("s01-02");
     state = endCurrentLine(state);
     expect(state.isLineActive).toBe(false); // in the gap after the opening
@@ -109,7 +109,7 @@ describe("sessionReducer", () => {
   });
 
   it("reaches a checkpoint only after the scene has fully played", () => {
-    let state = endCurrentLine(startSession());
+    let state = endCurrentLine(startSession(6));
     expect(state.lastCheckpoint).toBeNull();
     state = endCurrentLine(state);
     expect(state.lastCheckpoint).toBe("CP1");
@@ -252,6 +252,7 @@ describe("sessionReducer", () => {
     it("plays the compressed ending for the checkpoint and completes after it", () => {
       let state = stepUntil(startSession(), (s) => s.lastCheckpoint === "CP2");
       state = apply(state, { type: "STOP" }, { type: "CHOOSE_FINISH" });
+      if (state.phase === "closing") state = endCurrentLine(state);
       expect(state.track).toBe("finishing");
       expect(currentLine(state)?.id).toBe("c02-01");
       state = endCurrentLine(state);
