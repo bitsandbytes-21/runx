@@ -80,7 +80,7 @@ describe("ResumeScreen", () => {
     };
     const props = renderResume({ manifest: long });
     expect(screen.getByRole("alert")).toHaveTextContent(
-      /needs at least 27 min/,
+      /needs at least 29 min/,
     );
     expect(
       screen.getByRole("button", { name: "Continue the story" }),
