@@ -1,25 +1,82 @@
 @import "tailwindcss";
+@import "./tokens.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* DESIGN.md tokens exposed as Tailwind utilities (bg-glass, text-label, rounded-card...). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-fg: var(--c-fg);
+  --color-fg-2: var(--c-fg-2);
+  --color-glass: var(--c-glass);
+  --color-glass-line: var(--c-glass-line);
+  --color-glass-solid: var(--c-glass-solid);
+  --color-tint-bg: var(--c-tint-bg);
+  --color-tint-fg: var(--c-tint-fg);
+  --color-accent: var(--c-accent);
+  --color-quixote: var(--c-quixote);
+  --color-sancho: var(--c-sancho);
+  --color-sys-blue: var(--c-sys-blue);
+  --color-sys-green: var(--c-sys-green);
+  --color-sys-gray: var(--c-sys-gray);
+  --color-sheet: var(--c-sheet);
+  --color-label: var(--c-label);
+  --color-label-2: var(--c-label-2);
+  --color-separator: var(--c-separator);
+  --color-segment-track: var(--c-segment-track);
+  --color-scrim: var(--c-scrim);
+  --color-error: var(--c-error);
+
+  --font-ui: var(--font-ui);
+  --font-num: var(--font-num);
+
+  --text-timer: var(--fs-timer);
+  --text-large-title: var(--fs-large-title);
+  --text-title-2: var(--fs-title-2);
+  --text-title-3: var(--fs-title-3);
+  --text-headline: var(--fs-headline);
+  --text-subhead: var(--fs-subhead);
+  --text-footnote: var(--fs-footnote);
+  --text-caption: var(--fs-caption);
+
+  --radius-tile: var(--r-tile);
+  --radius-group: var(--r-group);
+  --radius-card: var(--r-card);
+  --radius-sheet: var(--r-sheet);
+  --radius-pill: var(--r-pill);
+
+  --spacing-tap: var(--tap);
+  --spacing-btn: var(--btn-h);
+  --spacing-ctrl: var(--ctrl-h);
+  --spacing-row: var(--row-h);
+
+  --shadow-soft: var(--shadow-soft);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--c-glass-solid);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family:
-    -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  min-height: 100dvh;
+  background: var(--c-sky);
+  background-attachment: fixed;
+  color: var(--c-fg);
+  font-family: var(--font-ui);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes sails-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sails-turning {
+  animation: sails-turn 6s linear infinite;
+  transform-origin: 110px 98px;
+}
+
+.sails-turning[data-paused="true"] {
+  animation-play-state: paused;
 }

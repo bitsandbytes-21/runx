@@ -28,6 +28,12 @@
   --c-tint-bg: #FFFFFF; --c-tint-fg: #1F4E8C;
   --c-accent: #E3A33B;
   --c-speaker-sancho: var(--c-sancho);
+
+  /* Added with the Home and Stop screens (issue #6, #9) */
+  --c-segment-track: rgba(120, 120, 128, .26);
+  --c-scrim: rgba(10, 20, 40, .45);
+  --c-error: #FFD6D6;
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, .16);
 }
 
 /* Materials */
