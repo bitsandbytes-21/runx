@@ -2,38 +2,75 @@
 
 :root {
   /* Type */
-  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-ui:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
   --font-num: ui-rounded, "SF Pro Rounded", -apple-system, sans-serif;
-  --fs-timer: 74px; --fs-clock: 88px; --fs-large-title: 34px; --fs-title-2: 22px; --fs-title-3: 20px;
-  --fs-headline: 17px; --fs-subhead: 15px; --fs-footnote: 13px; --fs-caption: 11px;
+  --fs-timer: 74px;
+  --fs-clock: 88px;
+  --fs-large-title: 34px;
+  --fs-title-2: 22px;
+  --fs-title-3: 20px;
+  --fs-headline: 17px;
+  --fs-subhead: 15px;
+  --fs-footnote: 13px;
+  --fs-caption: 11px;
 
   /* Spacing */
-  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
 
   /* Shape and size */
-  --r-tile: 9px; --r-group: 18px; --r-card: 26px; --r-sheet: 34px; --r-pill: 999px;
-  --tap: 44px; --btn-h: 52px; --ctrl-h: 60px; --row-h: 64px;
+  --r-tile: 9px;
+  --r-group: 18px;
+  --r-card: 26px;
+  --r-sheet: 34px;
+  --r-pill: 999px;
+  --tap: 44px;
+  --btn-h: 52px;
+  --ctrl-h: 60px;
+  --row-h: 64px;
 
   /* Characters and system */
-  --c-quixote: #E3A33B; --c-sancho: #A7B56A;
-  --c-sys-blue: #0A84FF; --c-sys-green: #34C759; --c-sys-gray: #8E8E93;
-  --c-sheet: rgba(246, 246, 250, .94); --c-label: #1C1C1E; --c-label-2: #6C6C70; --c-separator: rgba(60, 60, 67, .14);
-  --focus: #0A84FF;
+  --c-quixote: #e3a33b;
+  --c-sancho: #a7b56a;
+  --c-sys-blue: #0a84ff;
+  --c-sys-green: #34c759;
+  --c-sys-gray: #8e8e93;
+  --c-sheet: rgba(246, 246, 250, 0.94);
+  --c-label: #1c1c1e;
+  --c-label-2: #6c6c70;
+  --c-separator: rgba(60, 60, 67, 0.14);
+  --focus: #0a84ff;
 
   /* Daylight palette */
-  --c-sky: linear-gradient(180deg, #2E6FBF 0%, #5D9BDB 38%, #A9CFEF 68%, #F1D9A8 100%);
+  --c-sky: linear-gradient(
+    180deg,
+    #2e6fbf 0%,
+    #5d9bdb 38%,
+    #a9cfef 68%,
+    #f1d9a8 100%
+  );
   --c-bg: var(--c-sky);
-  --c-fg: #FFFFFF; --c-fg-2: rgba(255, 255, 255, .86);
-  --c-glass: rgba(18, 48, 96, .58); --c-glass-line: rgba(255, 255, 255, .36); --c-glass-solid: #1D3C6E;
-  --c-tint-bg: #FFFFFF; --c-tint-fg: #1F4E8C;
-  --c-accent: #E3A33B;
+  --c-fg: #ffffff;
+  --c-fg-2: rgba(255, 255, 255, 0.86);
+  --c-glass: rgba(18, 48, 96, 0.58);
+  --c-glass-line: rgba(255, 255, 255, 0.36);
+  --c-glass-solid: #1d3c6e;
+  --c-tint-bg: #ffffff;
+  --c-tint-fg: #1f4e8c;
+  --c-accent: #e3a33b;
   --c-speaker-sancho: var(--c-sancho);
 
   /* Added with the Home and Stop screens (issue #6, #9) */
-  --c-segment-track: rgba(120, 120, 128, .26);
-  --c-scrim: rgba(10, 20, 40, .45);
-  --c-error: #FFD6D6;
-  --shadow-soft: 0 2px 8px rgba(0, 0, 0, .16);
+  --c-segment-track: rgba(120, 120, 128, 0.26);
+  --c-scrim: rgba(10, 20, 40, 0.45);
+  --c-error: #ffd6d6;
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.16);
 }
 
 /* Materials */
@@ -42,13 +79,27 @@
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
   border: 1px solid var(--c-glass-line);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 8px 24px rgba(0, 0, 0, .14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.14);
 }
 @media (prefers-reduced-transparency: reduce) {
-  .glass { background: var(--c-glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .glass {
+    background: var(--c-glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition-duration: 150ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 150ms !important;
+  }
 }

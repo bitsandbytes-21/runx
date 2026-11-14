@@ -10,3 +10,6 @@ AGENTS.md
 README.md
 .github/pull_request_template.md
 .github/ISSUE_TEMPLATE
+src/content/*.manifest.json
+supabase/seed.sql
+public
