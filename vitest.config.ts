@@ -14,6 +14,15 @@ export default defineConfig({
       "tests/unit/**/*.test.{ts,tsx}",
       "tests/integration/**/*.test.{ts,tsx}",
     ],
-    coverage: { include: ["src/lib/**"] },
+    coverage: {
+      include: ["src/lib/**"],
+      reporter: ["text-summary", "lcov"],
+      // Goals from AGENTS.md; CI fails below them.
+      thresholds: {
+        lines: 80,
+        branches: 80,
+        "src/lib/scheduler/**": { lines: 90, branches: 90 },
+      },
+    },
   },
 });

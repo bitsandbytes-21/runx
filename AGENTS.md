@@ -58,6 +58,11 @@ Core pattern: `buildTimeline(manifest, durationMin, checkpoint) -> Timeline` is 
 - Next.js 16 prerenders pages: never call `Date.now()` or `new Date()` while rendering. Keep time logic in a pure function in `src/lib/` (`finishTime(now, durationMin)`) and pass `now` in.
 - Do not call `setState` synchronously inside `useEffect` (lint error); derive the value while rendering or set it in an event handler.
 - Use `next/link` for internal links.
+- (Sprint 2) `useSearchParams` or a session read needs a `<Suspense>` boundary under `cacheComponents`; GET route handlers that read the database call `await connection()` so they are not prerendered at build time.
+- (Sprint 2) Middleware is `src/proxy.ts` in Next.js 16. It is an optimistic guard only; route handlers re-check the role.
+- (Sprint 2) Generated files (`src/content/*.manifest.json`, `supabase/seed.sql`, `public/`) are ignored by Prettier; regenerate them with `npm run content:build`, never edit by hand.
+- (Sprint 2) Visually hidden radios (`sr-only`) cannot be `.check()`ed in Playwright; click the label text like a person would.
+- (Sprint 2) Before `npm run test:e2e` locally, make sure no old server holds port 3000 (`reuseExistingServer` would test a stale build).
 
 ### Testing strategy
 - **Unit (Vitest, no DOM):** scheduler, session state machine, checkpoint rules, manifest validator. Cases: 20/30/45 min, resume from each checkpoint, remaining story too long, +/-15 s tolerance, Stop pressed twice.
@@ -105,10 +110,10 @@ UI work follows `DESIGN.md`: use its tokens via the Tailwind theme, never hardco
 - **Branches:** `feature/<issue>-short-desc`, `fix/…`, `chore/…`, `docs/…` (e.g. `feature/5-scheduler`).
 - **Commits:** Conventional Commits and an issue reference: `feat(scheduler): fit climax into last 3 min (Refs #5)`. Imperative, subject <= 72 chars.
 - **TDD:** commit the failing test first (red), then the code (green), then refactor. Commit each step on the issue branch; never leave finished work uncommitted.
-- **PRs:** one issue per PR, body uses the PR template (`Closes #N`, test notes, partner-review checkbox). Partner reviews before merge; CI must be green; squash-merge to `main`. AI tools never push to `main` or merge.
+- **PRs:** one issue per PR, body uses the PR template (`Closes #N`, test notes, self-review checkbox). The author self-reviews the diff before merge; CI must be green; squash-merge to `main`. AI tools never push to `main` or merge.
 - **Code references:** `// TODO(#N): ...` only; never a bare TODO.
 - **Done means:** `npm run lint`, `npm test`, `npm run build` and `npm run test:e2e` were all run. Report only checks you actually ran, with their result, and list the acceptance criteria met and not met.
-- **Board:** Backlog -> Sprint Todo -> In Progress -> In Review -> Done. Product Owner and Scrum Master rotate each sprint. Do not pull Sprint 2 work into Sprint 1 without team agreement.
+- **Board:** Backlog -> Sprint Todo -> In Progress -> In Review -> Done. Individual project from Sprint 2: the author is Product Owner and Scrum Master. Do not pull work into a sprint without updating its planning doc.
 
 ## 5. Do and Don't
 **Do**
@@ -128,7 +133,7 @@ UI work follows `DESIGN.md`: use its tokens via the Tailwind theme, never hardco
 ### Libraries
 **Prefer:** the Stack above; Zod for every schema (one schema gives both validation and types); native `fetch`, `HTMLAudioElement`, Media Session and `Intl`; a plain TypeScript reducer for the session state machine; Tailwind with DESIGN.md tokens; the SVGs in `docs/design/assets/`; a hand-written `docs/api/openapi.yaml`.
 **Avoid:** UI kits (MUI, shadcn, Chakra: the design is custom); Redux, XState, Zustand (the state machine is small); axios; moment, lodash, date-fns; Prisma or Drizzle (schema is SQL migrations); audio libraries such as Howler; icon packages.
-Any new dependency needs an issue and team agreement.
+Any new dependency needs an issue that explains why.
 
 ## 6. When unsure
 Name the issue and acceptance criterion you are working on, state assumptions, and prefer the smallest change that satisfies it.

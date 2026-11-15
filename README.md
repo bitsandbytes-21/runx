@@ -1,41 +1,67 @@
 # RunX
 
-**Run with Don Quixote and Sancho.** A mobile web app that turns every run into an episode of a comedy audio adventure. While you run, Don Quixote and his squire Sancho Panza talk to you in short, funny scenes adapted from the public-domain novel. You choose a 20, 30 or 45-minute run, and a scheduler builds a story timeline that fits: a light opening, rising action, and the climax in your last minutes. If you stop early you choose how the story ends, and your progress is saved for the next run.
+**Run with Don Quixote and Sancho.** A mobile web app that turns a run into an episode of a comedy audio adventure. While you run, Don Quixote and his squire Sancho Panza talk to you in short scenes adapted from the public-domain novel. Pick a 20, 30 or 45 minute run (or 15–60 in 5 minute steps) and a scheduler fits the story to it: an easy opening, rising action, and the climax in your last 3 minutes. Stop early and you choose: **Save for next time** or **Finish the story now**. Progress resumes on your next run.
 
-> Status: course project (CS7180 AI-assisted coding), in planning and setup. There is no application code yet; the Next.js scaffold is [issue #1](https://github.com/Kmegamind/runx/issues/1).
+- **Live app:** _add the production URL after the first deploy (see [deployment guide](docs/deployment.md))_
+- **API docs:** `/api/docs` on any deployment (OpenAPI source: [`docs/api/openapi.yaml`](docs/api/openapi.yaml))
+- **Course:** CS7180 Project 2, individual project by Uryaswi Bhowmick. Sprint 1 was done as a pair with Yue Li (product docs, design, scaffold); see the [contribution log](docs/contribution-log.md).
 
-## What it does (MVP)
-- Pick a run length (20 / 30 / 45 min); the story fits it and the climax lands in the last 3 minutes.
-- Two characters, captions for every line, pause and stop controls made for use while moving.
-- Stop early: **Finish the story now** or **Save for next time**; the story never cuts off mid-sentence.
-- Resume from a saved checkpoint; sign in to keep progress across devices; try a demo as a guest.
-- Editor tools for scenes and a public API with OpenAPI docs (Sprint 2).
-
-## Project map
-| Where | What |
+## Features and roles
+| Role | Can do |
 |---|---|
-| [`docs/PRD.md`](docs/PRD.md) | Product requirements: user stories US-1..US-9 with acceptance criteria |
-| [`docs/features/`](docs/features/README.md) | One PRD per feature (FR-01..FR-13) and parked ideas |
-| [`docs/architecture.md`](docs/architecture.md) | Modules, data model and key flows |
-| [`docs/decisions/`](docs/decisions/README.md) | One short record per big technical choice |
-| [`docs/sprints/`](docs/sprints/sprint-1/planning.md) | Sprint planning, standups and retrospectives |
-| [`docs/api/openapi.yaml`](docs/api/openapi.yaml) | Draft public API contract |
-| [`DESIGN.md`](DESIGN.md) | Design system: colors, type, components, accessibility |
-| [`docs/design/`](docs/design/README.md) | Interactive prototype (`mockup.html`), tokens and art assets |
-| [`docs/content/`](docs/content/script-style-guide.md) | Script style guide and Episode 1 scenes |
-| [`docs/ISSUES.md`](docs/ISSUES.md) | The backlog as written, mirrored on GitHub |
-| [`AGENTS.md`](AGENTS.md) | Rules for AI coding tools: architecture, naming, workflow, do and don't |
+| **Guest** | Run any length without an account; progress stays on the device; try the accelerated **demo** (a 20 minute plan with a 10x clock, kept separate from real progress) |
+| **Runner** (signed in) | Everything a guest can, with progress stored in PostgreSQL per user (row-level security) and restored on any device; guest progress offered for import on first login |
+| **Editor** | Manage Episode 1 scenes at `/editor`: edit, add, reorder, publish. Publishing is blocked while the manifest validator reports problems and bumps the manifest version |
 
-## Planned stack
-Next.js (App Router) + TypeScript + Tailwind CSS, Supabase (PostgreSQL and Auth), Vitest and Playwright, GitHub Actions, deployed on Vercel. Exact versions are pinned once the scaffold lands.
+Core behaviour: pure scheduler (`buildTimeline`), a run-session state machine (pause, stop sheet, the current line always finishes, a second Stop does nothing), captions for every line, checkpoints CP1–CP3, recap after a 3 day gap, compressed endings, a public REST API.
 
-## How we work
-- **Board:** [RunX project](https://github.com/users/Kmegamind/projects/2) with columns Backlog, Sprint Todo, In Progress, In Review, Done.
-- **Sprints:** Sprint 1 (foundation and core loop) and Sprint 2 (stop, resume, accounts, API), tracked as milestones on the [issues page](https://github.com/Kmegamind/runx/issues).
-- **Flow:** every change starts from an issue; branches `feature/<issue>-desc` (also `fix/`, `chore/`, `docs/`); Conventional Commits with an issue reference; tests first; one issue per pull request, reviewed by a teammate and squash-merged. Details in [`AGENTS.md`](AGENTS.md).
-
-## Content and credits
-The story is adapted from *Don Quixote* (public domain); sources are credited in `docs/SOURCES.md` once the first episode lands.
+## Stack
+Next.js 16 (App Router, route handlers) · React 19 · TypeScript (strict) · Tailwind CSS 4 with the `DESIGN.md` tokens · Supabase (PostgreSQL, Auth with JWT) · Zod · Vitest + Testing Library · Playwright · GitHub Actions · Vercel.
 
 ## Getting started
-Setup and run instructions will be added with the scaffold in issue #1.
+Requirements: Node 24+, npm.
+
+```bash
+git clone <repo-url> && cd runx
+npm ci
+npm run dev            # http://localhost:3000, guest-only without Supabase
+```
+
+To enable accounts and the database, create a Supabase project, run the migration and seed, and copy `.env.example` to `.env.local` with your project URL and anon key. Step-by-step: [docs/deployment.md](docs/deployment.md).
+
+## Commands
+| Command | What it does |
+|---|---|
+| `npm run dev` | Local dev server |
+| `npm test` | Unit and integration tests (Vitest) |
+| `npm run test:coverage` | Tests with coverage gates (scheduler ≥ 90%, rest of `src/lib` ≥ 80%) |
+| `npm run test:e2e` | Playwright flows at 375 px with silent audio and an accelerated clock |
+| `npm run lint` | ESLint and Prettier check |
+| `npm run typecheck` | Route type generation and `tsc --noEmit` |
+| `npm run build` | Production build |
+| `npm run content:build` | Regenerate Episode 1 audio (macOS `say`), manifest and `supabase/seed.sql` from `docs/content/scenes/ep1-script.json` |
+
+Test-only URL parameters: `/run?audio=silent&speed=60` plays captions on a 60x clock without audio (used by E2E); `/?audio=silent&speed=60` forwards them to the next run.
+
+## Documentation
+| Document | Contents |
+|---|---|
+| [docs/PRD.md](docs/PRD.md), [docs/features/](docs/features/README.md) | User stories US-1..US-9 with acceptance criteria; feature PRDs |
+| [docs/architecture.md](docs/architecture.md) | Architecture diagram, modules, key flows |
+| [docs/architecture/schema.md](docs/architecture/schema.md) | Database schema diagram and row-level security |
+| [docs/api/openapi.yaml](docs/api/openapi.yaml) | Public API (served at `/api/docs`) |
+| [docs/deployment.md](docs/deployment.md) | Setup, environments, Supabase, Vercel, CI/CD |
+| [docs/sprints/](docs/sprints/) | Sprint planning, standups, retrospectives |
+| [docs/contribution-log.md](docs/contribution-log.md) | Who did what |
+| [docs/spikes/lock-screen-audio.md](docs/spikes/lock-screen-audio.md) | Background audio findings and device test plan |
+| [docs/decisions/](docs/decisions/README.md) | Architecture decision records |
+| [DESIGN.md](DESIGN.md), [AGENTS.md](AGENTS.md) | Design system; shared rules file for AI tools |
+| [docs/SOURCES.md](docs/SOURCES.md) | Public-domain sources and credits |
+
+## Known limits
+- Audio is generated with macOS system voices as a placeholder until final TTS voices are chosen.
+- Background playback with a locked screen is not yet verified on real devices; see the [spike](docs/spikes/lock-screen-audio.md).
+- No pace, speed or body comments, by design. Stopping is always respected.
+
+## Workflow
+Every change starts from a GitHub issue; branch `feature/<issue>-desc`; failing test committed first; Conventional Commits with `Refs #N`; one issue per PR, self-reviewed against the PR checklist, CI green, squash-merged. Details in [AGENTS.md](AGENTS.md).

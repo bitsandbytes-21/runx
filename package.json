@@ -9,6 +9,9 @@
     "lint": "eslint && prettier --check .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "next typegen && tsc --noEmit",
+    "content:build": "node scripts/content/build-episode.mjs && node scripts/content/generate-seed.mjs",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
   },

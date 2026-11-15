@@ -83,3 +83,11 @@ describe("createLocalProgressStore", () => {
     expect(await store.load(manifest)).toEqual({ kind: "none" });
   });
 });
+
+describe("browserStorage", () => {
+  it("returns localStorage when the browser allows it", async () => {
+    const { browserStorage } =
+      await import("@/lib/progress/local-progress-store");
+    expect(browserStorage()).toBe(window.localStorage);
+  });
+});

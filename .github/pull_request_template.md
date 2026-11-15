@@ -11,4 +11,4 @@ Closes #
 ## Checklist
 - [ ] Follows `AGENTS.md` (naming, architecture, no secrets)
 - [ ] Docs updated if behavior changed
-- [ ] Partner review requested
+- [ ] Self-reviewed the full diff (and CI is green)
