@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { DEMO_SPEED, parseRunOptions } from "@/lib/run/run-options";
+import {
+  DEMO_SPEED,
+  parseRunOptions,
+  withTestParams,
+} from "@/lib/run/run-options";
 
 const parse = (query: string) => parseRunOptions(new URLSearchParams(query));
 
@@ -12,6 +16,7 @@ describe("parseRunOptions", () => {
       audioMode: "html",
       isResume: false,
       includeRecap: false,
+      fromCheckpoint: null,
     });
   });
 
@@ -37,10 +42,25 @@ describe("parseRunOptions", () => {
   });
 
   it("reads resume and recap flags", () => {
-    expect(parse("resume=1&recap=1")).toMatchObject({
+    expect(parse("resume=1&from=CP2&recap=1")).toMatchObject({
       isResume: true,
       includeRecap: true,
+      fromCheckpoint: "CP2",
     });
     expect(parse("recap=1").includeRecap).toBe(false);
+    expect(parse("resume=1&from=CP9")).toMatchObject({
+      isResume: false,
+      fromCheckpoint: null,
+    });
+  });
+});
+
+describe("withTestParams", () => {
+  it("forwards only the audio and speed parameters", () => {
+    const next = withTestParams(
+      new URLSearchParams("audio=silent&speed=60&min=45"),
+      new URLSearchParams("min=20"),
+    );
+    expect(next.toString()).toBe("min=20&audio=silent&speed=60");
   });
 });

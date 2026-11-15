@@ -48,8 +48,8 @@ describe("planResume", () => {
     const plan = planResume(tiny, "CP2", 15, false);
     expect(plan).toMatchObject({
       kind: "tooShort",
-      minDurationMin: 22,
-      suggestedDurationMin: 25,
+      minDurationMin: 20,
+      suggestedDurationMin: 20,
     });
   });
 });
