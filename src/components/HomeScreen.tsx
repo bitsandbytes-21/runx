@@ -13,6 +13,7 @@ import {
 } from "./styles";
 import { Icon } from "./Icon";
 import { DEFAULT_DURATION_MIN, finishTime } from "@/lib/run/durations";
+import { unlockAudio } from "@/lib/audio/audio-port";
 
 interface HomeScreenProps {
   /** Current time in ms, or null while prerendering. */
@@ -46,7 +47,7 @@ export function HomeScreen({
             alt=""
             width={120}
             height={160}
-            className="h-40 w-30 object-cover"
+            className="h-40 w-30 object-cover object-top"
             priority
           />
         </div>
@@ -59,7 +60,7 @@ export function HomeScreen({
             alt=""
             width={120}
             height={160}
-            className="h-40 w-30 object-cover"
+            className="h-40 w-30 object-cover object-top"
             priority
           />
         </div>
@@ -102,7 +103,7 @@ export function HomeScreen({
         Pocket your phone, we’ll talk you through it.
       </p>
 
-      <Link href="/run?demo=1" className={GLASS_BUTTON}>
+      <Link href="/run?demo=1" className={GLASS_BUTTON} onClick={unlockAudio}>
         Try the demo, no account needed
       </Link>
 
