@@ -3,6 +3,7 @@
 **Run with Don Quixote and Sancho.** A mobile web app that turns a run into an episode of a comedy audio adventure. While you run, Don Quixote and his squire Sancho Panza talk to you in short scenes adapted from the public-domain novel. Pick a 20, 30 or 45 minute run (or 15–60 in 5 minute steps) and a scheduler fits the story to it: an easy opening, rising action, and the climax in your last 3 minutes. Stop early and you choose: **Save for next time** or **Finish the story now**. Progress resumes on your next run.
 
 - **Live app:** _add the production URL after the first deploy (see [deployment guide](docs/deployment.md))_
+- **Demo video:** _add the link after recording ([script](docs/demo-script.md)); submission checklist: [docs/deliverables.md](docs/deliverables.md)_
 - **API docs:** `/api/docs` on any deployment (OpenAPI source: [`docs/api/openapi.yaml`](docs/api/openapi.yaml))
 - **Course:** CS7180 Project 2, individual project by Uryaswi Bhowmick. Sprint 1 was done as a pair with Yue Li (product docs, design, scaffold); see the [contribution log](docs/contribution-log.md).
 

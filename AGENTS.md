@@ -62,6 +62,7 @@ Core pattern: `buildTimeline(manifest, durationMin, checkpoint) -> Timeline` is 
 - (Sprint 2) Middleware is `src/proxy.ts` in Next.js 16. It is an optimistic guard only; route handlers re-check the role.
 - (Sprint 2) Generated files (`src/content/*.manifest.json`, `supabase/seed.sql`, `public/`) are ignored by Prettier; regenerate them with `npm run content:build`, never edit by hand.
 - (Sprint 2) Visually hidden radios (`sr-only`) cannot be `.check()`ed in Playwright; click the label text like a person would.
+- (Sprint 2) After changing dependencies, regenerate `package-lock.json` with `npx npm@10.9.2 install --package-lock-only`: npm 11 on macOS drops Linux-only optional packages and `npm ci` then fails in CI.
 - (Sprint 2) Before `npm run test:e2e` locally, make sure no old server holds port 3000 (`reuseExistingServer` would test a stale build).
 
 ### Testing strategy
