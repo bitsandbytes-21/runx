@@ -1,0 +1,189 @@
+{"scenes":[
+{"id":"s01-departure","type":"opening","title":"Riding out at dawn","part":"warmup","required":true,"prerequisites":[],"checkpoint":"CP1","forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VII","lines":[
+{"speaker":"sancho","text":"Ahead of you, a sleeping village under a gray dawn. Two riders slip out past the last houses: a tall, thin knight on a bony horse, and me, on my donkey."},
+{"speaker":"quixote","text":"Softly, Sancho. Great deeds begin in silence, before the neighbors wake up and ask questions."},
+{"speaker":"sancho","text":"Before my wife wakes up, he means. No goodbyes, no note. Just saddlebags and a wine-skin and a lot of hope."},
+{"speaker":"quixote","text":"Ah, our new companion has joined us! I name you my second squire: Sancho is first, you are second, and in knighthood, ranks matter greatly."},
+{"speaker":"sancho","text":"Ranks. Friend, there are two of us. Second squire is also the last squire."},
+{"speaker":"quixote","text":"Every great order begins small. Forward, Rocinante! The world is full of wrongs, and not one of them knows we are coming."},
+{"speaker":"sancho","text":"Good, let's keep it that way. Stay beside me, friend; I packed for two, but I can share."}
+],"bridge":{"speaker":"sancho","text":"We ride on through the fields; I'll call you when my master starts making promises."}},
+
+{"id":"s02-island","type":"optional","title":"The promised island","part":"warmup","required":false,"prerequisites":["s01-departure"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VII","lines":[
+{"speaker":"sancho","text":"The sun climbs over the fields beside you. My master rides with his chin high, the way he does right before he promises something enormous."},
+{"speaker":"quixote","text":"Sancho, faithful squire. When I win a kingdom, and I will, I shall make you governor of an island."},
+{"speaker":"sancho","text":"The island again. Friend, he's promised me this island all night, and I've never even seen one, so I'm not sure what you do with it."},
+{"speaker":"quixote","text":"You rule it, Sancho. Wisely and well."},
+{"speaker":"sancho","text":"So if I'm a governor, my wife would be... a queen?"},
+{"speaker":"quixote","text":"Naturally. And your children, princes."},
+{"speaker":"sancho","text":"Master, you've met my wife. She'd be a fine queen for one afternoon. Then she'd tell the whole court to wipe their boots."},
+{"speaker":"quixote","text":"Then a countess, perhaps. Leave it in God's hands."},
+{"speaker":"sancho","text":"A countess. Hear that, friend? You're riding with royalty, future royalty, very far future."}
+],"bridge":{"speaker":"sancho","text":"We'll ride a while in peace. I'll call you when I get hungry, which is soon."}},
+
+{"id":"s03-saddlebags","type":"optional","title":"What is in the saddlebags","part":"warmup","required":false,"prerequisites":["s01-departure"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VII","lines":[
+{"speaker":"sancho","text":"The road bends toward the plain of Montiel. Behind me the saddlebags bounce, and the wine-skin sloshes with every step my donkey takes."},
+{"speaker":"quixote","text":"Sancho. What is that sound?"},
+{"speaker":"sancho","text":"Breakfast, master. I brought bread, one small loaf, for emergencies."},
+{"speaker":"quixote","text":"Knights errant do not eat on the road. They live on glory."},
+{"speaker":"sancho","text":"Then you won't mind if I eat your half."},
+{"speaker":"quixote","text":"Eat, then. But your stomach will never be sung about in ballads."},
+{"speaker":"sancho","text":"My stomach doesn't want a ballad, it wants bread. Friend, if we pass a bakery, say nothing, or he'll call it a castle and try to rescue it."}
+],"bridge":{"speaker":"sancho","text":"The road runs on toward Montiel; I'll call you when the land opens wide."}},
+
+{"id":"s04-plain","type":"core","title":"The plain of Montiel","part":"rising","required":true,"prerequisites":["s01-departure"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VII","lines":[
+{"speaker":"sancho","text":"The fields fall away, and the plain of Montiel opens around you, flat and gold to the edge of the sky. The sun is up now, and heat shimmers off the road."},
+{"speaker":"quixote","text":"Do you feel it, Sancho? This is the very plain where my adventures were meant to begin."},
+{"speaker":"sancho","text":"I feel the sun on the back of my neck. Is that the adventure?"},
+{"speaker":"quixote","text":"Hush. Somewhere out there, a wrong waits to be righted: a giant, a wicked knight, a dragon if we are lucky."},
+{"speaker":"sancho","text":"Or nothing. Flat ground is mostly nothing, master. That's why it's flat."},
+{"speaker":"quixote","text":"Nothing is only an adventure that has not arrived yet."},
+{"speaker":"sancho","text":"Friend, remember that one for his tombstone. Meanwhile I'm down to half a loaf, and I'm guarding it like a castle under siege."}
+],"bridge":{"speaker":"sancho","text":"Stay beside me, friend. I'll call you when something shows up on the horizon."}},
+
+{"id":"s05-windmills-sighted","type":"core","title":"Giants on the horizon","part":"rising","required":true,"prerequisites":["s04-plain"],"checkpoint":"CP2","forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Friend. Look at the ridge ahead of you. Thirty or forty windmills, tall as churches, their big wooden sails turning slowly against the sky."},
+{"speaker":"sancho","text":"Perfectly normal countryside. Except my master has just seen them."},
+{"speaker":"quixote","text":"Sancho."},
+{"speaker":"sancho","text":"Oh, no."},
+{"speaker":"quixote","text":"Do you see them?"},
+{"speaker":"sancho","text":"Yes."},
+{"speaker":"quixote","text":"Giants."},
+{"speaker":"sancho","text":"Windmills."},
+{"speaker":"quixote","text":"Thirty giants! Maybe forty, maybe a thousand, I did not count, and every one with arms two leagues long!"},
+{"speaker":"sancho","text":"Master, those are sails. The wind turns them, and they grind flour for bread. You like bread."},
+{"speaker":"quixote","text":"Bread? Destiny stands on that ridge, and you speak to me of bread?"},
+{"speaker":"sancho","text":"It is very good bread. Friend, that ridge is more bread than I have seen in my whole life."},
+{"speaker":"quixote","text":"Fortune is arranging our affairs better than we could have wished. This is righteous war, Sancho."},
+{"speaker":"sancho","text":"So, he says giants, I say windmills. Friend, you have the deciding vote, and I know which way you're leaning."}
+],"bridge":{"speaker":"sancho","text":"Stay close, friend. He's sizing them up; I'll call you when he picks one."}},
+
+{"id":"s06-the-one-on-the-left","type":"optional","title":"The one on the left","part":"rising","required":false,"prerequisites":["s05-windmills-sighted"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"The windmills are closer now. You can hear them creak, a long wooden groan, and each sail's shadow sweeps across the road like the hand of a clock."},
+{"speaker":"quixote","text":"Sancho. The one on the left."},
+{"speaker":"sancho","text":"The windmill?"},
+{"speaker":"quixote","text":"The giant. He has been watching us."},
+{"speaker":"sancho","text":"He has no eyes."},
+{"speaker":"quixote","text":"Precisely... A professional."},
+{"speaker":"sancho","text":"Friend, are you still with me? Good. One of us should be."},
+{"speaker":"quixote","text":"Look! He waves his arms. He is challenging me."},
+{"speaker":"sancho","text":"That's the wind, master."},
+{"speaker":"quixote","text":"And why is the wind blowing?"},
+{"speaker":"sancho","text":"Because... huh. Actually, I don't know."},
+{"speaker":"quixote","text":"Ha! Even you admit there is a mystery."},
+{"speaker":"sancho","text":"He won... he actually won one. Friend, never tell him; I need a bite of bread to recover."}
+],"bridge":{"speaker":"sancho","text":"I have one more question for him; I'll call you before he does anything expensive."}},
+
+{"id":"s07-who-pays","type":"optional","title":"Who pays for a windmill","part":"rising","required":false,"prerequisites":["s05-windmills-sighted"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Ahead of you the sails turn and turn. My master is polishing his lance with his sleeve, and that is never a good sign."},
+{"speaker":"sancho","text":"Master, before you attack. If you knock one down, who pays for the windmill?"},
+{"speaker":"quixote","text":"The king."},
+{"speaker":"sancho","text":"Which king?"},
+{"speaker":"quixote","text":"We will discuss that after the battle."},
+{"speaker":"sancho","text":"And the flour? That mill grinds bread for half the valley. Knock it down and everyone eats soup."},
+{"speaker":"quixote","text":"Then the giant has stolen their bread, and I shall win it back for them."},
+{"speaker":"sancho","text":"Hm, that almost made sense. Friend, for half a second I agreed with him. Please don't let it happen again."}
+],"bridge":{"speaker":"sancho","text":"He's gathering up his reins. Stay beside me, friend; I'll call you when he's ready."}},
+
+{"id":"s08-lance-in-rest","type":"core","title":"Lance in rest","part":"rising","required":true,"prerequisites":["s05-windmills-sighted"],"checkpoint":"CP3","forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"You are facing the windmills now. My master sits tall on Rocinante, his buckler braced on his arm, his lance in rest, pointed at the nearest sail."},
+{"speaker":"quixote","text":"If you are afraid, Sancho, go aside and say your prayers, while I meet them in fierce and unequal combat."},
+{"speaker":"sancho","text":"I'm not afraid, I'm right, and that's different. Friend, back me up here."},
+{"speaker":"quixote","text":"Do not flee, you cowards! It is one knight alone who comes against you."},
+{"speaker":"sancho","text":"Nobody is fleeing, master. They're bolted to the ground."},
+{"speaker":"quixote","text":"Lady Dulcinea, flower of beauty, I commend myself to you. Stand by me in this peril."},
+{"speaker":"sancho","text":"He's talking to his lady. She's far away in Toboso, but he says she hears every word."},
+{"speaker":"sancho","text":"Friend, stay with me. Whatever those things are, we watch together. I'm holding the last of the bread, in case anyone needs comfort."}
+],"bridge":{"speaker":"sancho","text":"He's ready. Stay with me, friend; I'll call you the moment Rocinante moves."}},
+
+{"id":"s09-charge","type":"climax","title":"The charge","part":"climax","required":true,"prerequisites":["s08-lance-in-rest"],"checkpoint":null,"forCheckpoint":null,"beat":"charge","source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Ahead of you, my master spurs Rocinante, and the old horse lowers his head and heads straight for the nearest windmill."},
+{"speaker":"sancho","text":"Rocinante breaks into a gallop. Ride with him if your legs feel good, or stay right here beside me. Either way, we see it together."},
+{"speaker":"quixote","text":"Wave all the arms you like, giant! For Dulcinea! You shall answer to me!"},
+{"speaker":"sancho","text":"Master, it's a windmill! It's a windmill!"},
+{"speaker":"sancho","text":"Just then the wind picks up. The great sail swings down, and the lance goes straight into it."},
+{"speaker":"sancho","text":"Crack. The lance shatters into pieces. The sail sweeps horse and rider up and drops them, rolling over and over across the plain."},
+{"speaker":"quixote","text":"A worthy opponent..."},
+{"speaker":"sancho","text":"Hold on, master, I'm coming! Friend, come with me. That was the expensive part."}
+],"bridge":null},
+
+{"id":"s10-aftermath","type":"ending","title":"Freston the enchanter","part":"epilogue","required":true,"prerequisites":["s09-charge"],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Dust settles around you. My master lies flat beside Rocinante, and I come bouncing up on my donkey."},
+{"speaker":"sancho","text":"God help us, master. Didn't I tell you they were windmills? Nobody could miss it, unless he had windmills in his head."},
+{"speaker":"quixote","text":"Hush, friend Sancho. The sage Freston turned the giants into mills, to rob me of the glory of defeating them."},
+{"speaker":"sancho","text":"Of course. Freston. The enchanter nobody has ever seen."},
+{"speaker":"quixote","text":"His arts will fail in the end. Help me up; we ride for Puerto Lapice, where adventures are thick on the road."},
+{"speaker":"sancho","text":"And bread, I hope. Friend, from now on I only eat bread that was never a giant. Thank you for riding with us, second squire, go well."}
+],"bridge":null},
+
+{"id":"e01-encourage","type":"optional","title":"A knight's companion","part":"rising","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":null,"beat":"encourage","source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"quixote","text":"Second squire, a knight is only as brave as the friend who rides beside him. I am glad it is you."}
+],"bridge":null},
+
+{"id":"e02-encourage","type":"optional","title":"Good company","part":"rising","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":null,"beat":"encourage","source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"sancho","text":"Friend, between you and me, this is the nicest part of the trip. Open road, good company, and nobody attacking anything."}
+],"bridge":null},
+
+{"id":"e03-encourage","type":"optional","title":"Better shared","part":"rising","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":null,"beat":"encourage","source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"quixote","text":"Stay beside me, friend. Every road is better shared."},
+{"speaker":"sancho","text":"That's the wisest thing he's said all week."}
+],"bridge":null},
+
+{"id":"e04-encourage","type":"optional","title":"Best conversation","part":"rising","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":null,"beat":"encourage","source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"sancho","text":"Still with us, friend? Good. My master talks to the sky, my donkey talks to nobody, so you're the best company on this road."}
+],"bridge":null},
+
+{"id":"x01-signoff","type":"signoff","title":"Until next time","part":"epilogue","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":null,"beat":null,"source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"sancho","text":"Heading home, friend? That's fine, good thinking even. The windmills aren't going anywhere."},
+{"speaker":"quixote","text":"A wise squire knows when the day's road is done. Our quest will wait, exactly where we leave it."},
+{"speaker":"sancho","text":"I'll save your place, and I'll save you some bread. Some of the bread. Come back whenever you like."},
+{"speaker":"quixote","text":"Farewell for now, second squire. Go in peace; our road will be here."}
+],"bridge":null},
+
+{"id":"r01-recap-cp1","type":"recap","title":"Previously: the departure","part":"warmup","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP1","beat":null,"source":"Ormsby 1885, Part I, ch. VII","lines":[
+{"speaker":"quixote","text":"Previously, my second squire, we rode out of the village at dawn to right the wrongs of the world."},
+{"speaker":"sancho","text":"And I came along on my donkey, with saddlebags, a wine-skin, and the promise of an island."},
+{"speaker":"quixote","text":"No one saw us leave. Not one wrong in all the world suspects we are coming."},
+{"speaker":"sancho","text":"Not my wife, either. Friend, welcome back: the road is open, the bread is packed, and my master is already looking for trouble. Stay beside me."}
+],"bridge":null},
+
+{"id":"r02-recap-cp2","type":"recap","title":"Previously: giants sighted","part":"warmup","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP2","beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"quixote","text":"Previously, on the plain of Montiel, we sighted thirty or forty giants on the horizon."},
+{"speaker":"sancho","text":"Windmills. He says giants, I say windmills, and they grind flour for bread."},
+{"speaker":"quixote","text":"Monstrous giants, with arms two leagues long. Fortune itself has placed them in my path, squire."},
+{"speaker":"sancho","text":"Fortune placed them on a ridge, where the wind is. Friend, welcome back: the windmills are right where we left them, still turning, and still not giants."}
+],"bridge":null},
+
+{"id":"r03-recap-cp3","type":"recap","title":"Previously: facing the windmills","part":"warmup","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP3","beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"quixote","text":"Previously, I faced the giants with my lance in rest, and commended myself to my lady Dulcinea."},
+{"speaker":"sancho","text":"I told him they were windmills. He told me to go and pray if I was afraid."},
+{"speaker":"quixote","text":"A squire's fear is natural. A knight's courage is not for sale."},
+{"speaker":"sancho","text":"Neither is my bread, and there is very little left. Friend, welcome back: he's still sitting on Rocinante, still pointing his lance at a windmill. Stay beside me."}
+],"bridge":null},
+
+{"id":"c01-finish-cp1","type":"compressed_ending","title":"The story, quickly, from the departure","part":"epilogue","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP1","beat":null,"source":"Ormsby 1885, Part I, ch. VII-VIII","lines":[
+{"speaker":"sancho","text":"Here's the rest of the story, friend, told quickly. We ride out onto the plain of Montiel, and there on the ridge stand thirty or forty windmills."},
+{"speaker":"quixote","text":"Giants, Sancho! Monstrous giants! If you are afraid, go aside and pray."},
+{"speaker":"sancho","text":"He commends himself to his lady Dulcinea, lowers his lance, and charges. The wind turns a sail, the lance shatters, and horse and rider roll across the plain."},
+{"speaker":"sancho","text":"I rush to help him. Didn't I tell you they were windmills, master?"},
+{"speaker":"quixote","text":"The sage Freston turned the giants into mills, to rob me of my glory. On to Puerto Lapice!"},
+{"speaker":"sancho","text":"So we ride on, one lance lighter, and my bread is still safe. Thank you for riding with us, friend. Go well."}
+],"bridge":null},
+
+{"id":"c02-finish-cp2","type":"compressed_ending","title":"The story, quickly, from the windmills","part":"epilogue","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP2","beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Here's how it ends, friend, told quickly. The windmills turn on the ridge, and my master is certain they are giants."},
+{"speaker":"quixote","text":"If you are afraid, Sancho, go aside and say your prayers. I fight them alone."},
+{"speaker":"sancho","text":"He commends himself to Dulcinea, braces his buckler, and charges on Rocinante. A sail catches the lance, it shatters, and horse and rider go rolling across the plain."},
+{"speaker":"sancho","text":"I come running on my donkey to help him up. I did say windmills."},
+{"speaker":"quixote","text":"The enchanter Freston changed them into mills, to steal my glory. His tricks will fail. We ride for Puerto Lapice."},
+{"speaker":"sancho","text":"And so we ride on, bruised but cheerful, with a little bread left. Thank you, second squire. Go well."}
+],"bridge":null},
+
+{"id":"c03-finish-cp3","type":"compressed_ending","title":"The story, quickly, from the charge","part":"epilogue","required":false,"prerequisites":[],"checkpoint":null,"forCheckpoint":"CP3","beat":null,"source":"Ormsby 1885, Part I, ch. VIII","lines":[
+{"speaker":"sancho","text":"Here's how it ends, friend, told quickly. My master spurs Rocinante straight at the nearest windmill, shouting for Dulcinea."},
+{"speaker":"sancho","text":"The wind swings a sail down. The lance shatters, and the sail flings horse and rider rolling across the plain."},
+{"speaker":"sancho","text":"I come running on my donkey. Master, didn't I tell you they were windmills?"},
+{"speaker":"quixote","text":"Hush, Sancho. The sage Freston turned those giants into mills, to rob me of my glory. But his arts will fail against my good sword."},
+{"speaker":"sancho","text":"So I help him up, and we ride on toward Puerto Lapice. He's sore, I'm hungry, and the bread survived. Thank you for riding with us, friend."}
+],"bridge":null}
+]}
