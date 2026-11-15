@@ -3,14 +3,17 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { AccountRow } from "./AccountRow";
 import { ContinueCard } from "./ContinueCard";
-import { useAuth } from "./hooks/use-auth";
-import { getBrowserSupabase } from "@/lib/db/supabase-browser";
 import { HomeScreen } from "./HomeScreen";
+import { ImportPrompt } from "./ImportPrompt";
+import { useAuth } from "./hooks/use-auth";
+import { useGuestImport } from "./hooks/use-guest-import";
 import { useNow } from "./hooks/use-now";
 import { useProgressStore } from "./hooks/use-progress-store";
 import { useSavedProgress } from "./hooks/use-saved-progress";
 import { EP1_MANIFEST } from "@/content/episodes";
 import { unlockAudio } from "@/lib/audio/audio-port";
+import { getBrowserSupabase } from "@/lib/db/supabase-browser";
+import { CHECKPOINT_LABELS } from "@/lib/manifest/labels";
 import { withTestParams } from "@/lib/run/run-options";
 
 export function HomePage() {
@@ -20,27 +23,42 @@ export function HomePage() {
   const auth = useAuth();
   const store = useProgressStore();
   const { load, reload } = useSavedProgress(store, EP1_MANIFEST);
+  const guestImport = useGuestImport(auth, store, load, EP1_MANIFEST, reload);
   const lastDurationMin =
     load?.kind === "ok"
       ? (load.record.lastDurationMin ?? undefined)
       : undefined;
+
+  const continueCard = guestImport.offer ? (
+    <ImportPrompt
+      checkpointLabel={
+        guestImport.offer.checkpoint
+          ? CHECKPOINT_LABELS[guestImport.offer.checkpoint]
+          : "Episode complete"
+      }
+      onImport={guestImport.accept}
+      onDecline={guestImport.decline}
+    />
+  ) : (
+    load &&
+    store && (
+      <ContinueCard
+        manifest={EP1_MANIFEST}
+        load={load}
+        onRestart={() => {
+          void store.clear(EP1_MANIFEST.episodeId).then(reload);
+        }}
+      />
+    )
+  );
+
   return (
     <HomeScreen
       // Remount once progress loads so the last used length is preselected.
       key={lastDurationMin ?? "default"}
       now={now}
       initialDurationMin={lastDurationMin}
-      continueCard={
-        load && (
-          <ContinueCard
-            manifest={EP1_MANIFEST}
-            load={load}
-            onRestart={() => {
-              void store.clear(EP1_MANIFEST.episodeId).then(reload);
-            }}
-          />
-        )
-      }
+      continueCard={continueCard}
       accountRow={
         <AccountRow
           auth={auth}

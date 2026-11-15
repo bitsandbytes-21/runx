@@ -8,11 +8,7 @@ import { GLASS_CARD, PRIMARY_BUTTON, SCREEN } from "./styles";
 import { RunScreen } from "./RunScreen";
 import { useRunSession, type Clock } from "./hooks/use-run-session";
 import { useProgressSync } from "./hooks/use-progress-sync";
-import {
-  createLocalProgressStore,
-  DEMO_PROGRESS_KEY,
-  GUEST_PROGRESS_KEY,
-} from "@/lib/progress/local-progress-store";
+import { useProgressStore } from "./hooks/use-progress-store";
 import type { ProgressStore } from "@/lib/progress/progress-record";
 import {
   createHtmlAudioPort,
@@ -37,6 +33,7 @@ const PERFORMANCE_CLOCK: Clock = { now: () => performance.now() };
 export function RunPage() {
   const params = useSearchParams();
   const options = useMemo(() => parseRunOptions(params), [params]);
+  const store = useProgressStore(options.isDemo ? "demo" : "run");
   const manifest = EP1_MANIFEST;
   const timeline = useMemo(
     () =>
@@ -58,20 +55,27 @@ export function RunPage() {
       </main>
     );
   }
+  if (!store) {
+    return <LoadingPanel done={0} total={0} onCancel={() => history.back()} />;
+  }
   return (
-    <LoadedRun manifest={manifest} timeline={timeline} options={options} />
+    <LoadedRun
+      manifest={manifest}
+      timeline={timeline}
+      options={options}
+      store={store}
+    />
   );
 }
 
-function LoadedRun({
-  manifest,
-  timeline,
-  options,
-}: {
+interface RunProps {
   manifest: Manifest;
   timeline: FittedTimeline;
   options: RunOptions;
-}) {
+  store: ProgressStore;
+}
+
+function LoadedRun({ manifest, timeline, options, store }: RunProps) {
   const router = useRouter();
   const clips = useMemo(
     () => sessionClipUrls(manifest, timeline),
@@ -123,6 +127,7 @@ function LoadedRun({
       manifest={manifest}
       timeline={timeline}
       options={options}
+      store={store}
       urls={load.urls}
     />
   );
@@ -132,13 +137,9 @@ function ActiveRun({
   manifest,
   timeline,
   options,
+  store,
   urls,
-}: {
-  manifest: Manifest;
-  timeline: FittedTimeline;
-  options: RunOptions;
-  urls: Map<string, string>;
-}) {
+}: RunProps & { urls: Map<string, string> }) {
   const router = useRouter();
   const [audio] = useState<AudioPort>(() =>
     options.audioMode === "silent"
@@ -153,12 +154,6 @@ function ActiveRun({
     speed: options.speed,
     autoStart: true,
   });
-  const [store] = useState<ProgressStore>(() =>
-    createLocalProgressStore(
-      window.localStorage,
-      options.isDemo ? DEMO_PROGRESS_KEY : GUEST_PROGRESS_KEY,
-    ),
-  );
   const { saveError } = useProgressSync(
     state,
     store,

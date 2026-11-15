@@ -52,7 +52,7 @@ export function ResumePage() {
         router.push(`/run?${withTestParams(params, query)}`);
       }}
       onRestart={() => {
-        void store.clear(EP1_MANIFEST.episodeId).then(() => router.push("/"));
+        void store?.clear(EP1_MANIFEST.episodeId).then(() => router.push("/"));
       }}
     />
   );
