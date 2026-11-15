@@ -1,8 +1,8 @@
-# Partner contribution log
+# Contribution log
 
-Generated from `git log` on 2026-11-15; each partner reviews and corrects their own rows before submission (reviews and pair work do not show in commits).
+RunX started as a pair project in Sprint 1 and is an individual project from Sprint 2. Generated from `git log` on 2026-11-15; earlier work is credited to its author below.
 
-## Yue Li
+## Yue Li (Sprint 1, before the project became individual)
 | Area | Work | Issues / PRs |
 |---|---|---|
 | Product | PRD, feature PRDs FR-01..FR-13, user research (Mom Test guide, interview synthesis), decision records | #16, PR 17, 22 |
@@ -23,6 +23,4 @@ Generated from `git log` on 2026-11-15; each partner reviews and corrects their 
 | DevOps and docs | Multi-stage CI, CodeQL, Vercel deploy jobs, README, architecture and deployment docs, spike write-up | #16, #8 |
 
 ## Reviews
-| PR | Author | Reviewer | Date |
-|---|---|---|---|
-| | | | |
+PRs are self-reviewed against the PR template checklist; CI (lint, typecheck, tests, coverage, security scan, build, E2E) must pass before merge.

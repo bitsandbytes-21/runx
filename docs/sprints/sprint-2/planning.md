@@ -14,7 +14,7 @@ Milestone: Sprint 2 on GitHub. Sprint goal: stop, resume, accounts and API, then
 | #15 | Public API with OpenAPI documentation | US-9 | 3 |
 | #16 | Deploy, security scan, documentation and demo | — | 3 |
 
-Sprint 1 carry-over: none of #2–#8 were finished in Sprint 1 (only #1 was); they were completed at the start of Sprint 2 together with the issues above. TODO(#16): confirm estimates and roles with the team; Product Owner and Scrum Master rotate (Sprint 1 PO: Yue Li).
+Sprint 1 carry-over: none of #2–#8 were finished in Sprint 1 (only #1 was); they were completed at the start of Sprint 2 together with the issues above. From Sprint 2 RunX is an individual project: Uryaswi Bhowmick is Product Owner and Scrum Master (Sprint 1 PO: Yue Li).
 
 ## Definition of done
-Acceptance criteria met; failing test committed before the code; `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm run test:e2e` green; partner review; squash-merged.
+Acceptance criteria met; failing test committed before the code; `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`, `npm run test:e2e` green; self-reviewed; squash-merged.

@@ -4,7 +4,7 @@
 
 - **Live app:** _add the production URL after the first deploy (see [deployment guide](docs/deployment.md))_
 - **API docs:** `/api/docs` on any deployment (OpenAPI source: [`docs/api/openapi.yaml`](docs/api/openapi.yaml))
-- **Course:** CS7180 Project 2, pair project (Yue Li, Uryaswi Bhowmick)
+- **Course:** CS7180 Project 2, individual project by Uryaswi Bhowmick. Sprint 1 was done as a pair with Yue Li (product docs, design, scaffold); see the [contribution log](docs/contribution-log.md).
 
 ## Features and roles
 | Role | Can do |
@@ -64,4 +64,4 @@ Test-only URL parameters: `/run?audio=silent&speed=60` plays captions on a 60x c
 - No pace, speed or body comments, by design. Stopping is always respected.
 
 ## Workflow
-Every change starts from a GitHub issue; branch `feature/<issue>-desc`; failing test committed first; Conventional Commits with `Refs #N`; one issue per PR, reviewed by the partner, CI green, squash-merged. Details in [AGENTS.md](AGENTS.md).
+Every change starts from a GitHub issue; branch `feature/<issue>-desc`; failing test committed first; Conventional Commits with `Refs #N`; one issue per PR, self-reviewed against the PR checklist, CI green, squash-merged. Details in [AGENTS.md](AGENTS.md).

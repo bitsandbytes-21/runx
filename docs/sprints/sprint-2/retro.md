@@ -1,17 +1,13 @@
 # Sprint 2 retrospective
 
-Fill this in together at the end of the sprint, including feedback for each other.
+Fill this in at the end of the sprint.
 
 ## What went well
 
 ## What did not go well
 
-## Partner feedback
-- Uryaswi to Yue:
-- Yue to Uryaswi:
-
-## What we change next time
-<!-- Each item: the change, the owner, and the file or process it touches -->
+## What I change next time
+<!-- Each item: the change and the file or process it touches -->
 
 ## Metrics
 - Issues planned / done:

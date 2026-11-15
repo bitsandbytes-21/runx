@@ -1,9 +1,9 @@
 # Sprint 2 standups
 
-Each partner posts their own entries (at least 3 per sprint each). Format:
+Individual project: one entry per working day (at least 3 per sprint). Format:
 
 ```
-## YYYY-MM-DD (name)
+## YYYY-MM-DD
 - Done:
 - Next:
 - Blockers:
