@@ -58,6 +58,11 @@ Core pattern: `buildTimeline(manifest, durationMin, checkpoint) -> Timeline` is 
 - Next.js 16 prerenders pages: never call `Date.now()` or `new Date()` while rendering. Keep time logic in a pure function in `src/lib/` (`finishTime(now, durationMin)`) and pass `now` in.
 - Do not call `setState` synchronously inside `useEffect` (lint error); derive the value while rendering or set it in an event handler.
 - Use `next/link` for internal links.
+- (Sprint 2) `useSearchParams` or a session read needs a `<Suspense>` boundary under `cacheComponents`; GET route handlers that read the database call `await connection()` so they are not prerendered at build time.
+- (Sprint 2) Middleware is `src/proxy.ts` in Next.js 16. It is an optimistic guard only; route handlers re-check the role.
+- (Sprint 2) Generated files (`src/content/*.manifest.json`, `supabase/seed.sql`, `public/`) are ignored by Prettier; regenerate them with `npm run content:build`, never edit by hand.
+- (Sprint 2) Visually hidden radios (`sr-only`) cannot be `.check()`ed in Playwright; click the label text like a person would.
+- (Sprint 2) Before `npm run test:e2e` locally, make sure no old server holds port 3000 (`reuseExistingServer` would test a stale build).
 
 ### Testing strategy
 - **Unit (Vitest, no DOM):** scheduler, session state machine, checkpoint rules, manifest validator. Cases: 20/30/45 min, resume from each checkpoint, remaining story too long, +/-15 s tolerance, Stop pressed twice.
