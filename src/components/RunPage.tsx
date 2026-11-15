@@ -2,7 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { LoadingPanel } from "./LoadingPanel";
+import { GLASS_CARD, PRIMARY_BUTTON, SCREEN } from "./styles";
 import { RunScreen } from "./RunScreen";
 import { useRunSession, type Clock } from "./hooks/use-run-session";
 import { useProgressSync } from "./hooks/use-progress-sync";
@@ -37,10 +39,25 @@ export function RunPage() {
   const options = useMemo(() => parseRunOptions(params), [params]);
   const manifest = EP1_MANIFEST;
   const timeline = useMemo(
-    () => buildTimeline(manifest, options.durationMin, null),
+    () =>
+      buildTimeline(manifest, options.durationMin, options.fromCheckpoint, {
+        includeRecap: options.includeRecap,
+      }),
     [manifest, options],
   );
-  if (!timeline.ok) return null;
+  if (!timeline.ok) {
+    return (
+      <main className={SCREEN}>
+        <p role="alert" className={GLASS_CARD}>
+          The rest of the story needs at least {timeline.minDurationMin} min.
+          Nothing is skipped, so choose a longer run.
+        </p>
+        <Link href="/resume" className={PRIMARY_BUTTON}>
+          Choose a length
+        </Link>
+      </main>
+    );
+  }
   return (
     <LoadedRun manifest={manifest} timeline={timeline} options={options} />
   );
