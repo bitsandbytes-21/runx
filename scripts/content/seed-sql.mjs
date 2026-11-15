@@ -4,11 +4,15 @@
 /** @param {unknown} value */
 function literal(value) {
   if (value === null || value === undefined) return "null";
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (typeof value === "number" || typeof value === "boolean")
+    return String(value);
   if (Array.isArray(value) && value.every((item) => typeof item === "string")) {
-    return value.length === 0 ? "'{}'" : `array[${value.map(literal).join(", ")}]`;
+    return value.length === 0
+      ? "'{}'"
+      : `array[${value.map(literal).join(", ")}]`;
   }
-  if (typeof value === "object") return `${literal(JSON.stringify(value))}::jsonb`;
+  if (typeof value === "object")
+    return `${literal(JSON.stringify(value))}::jsonb`;
   return `'${String(value).replaceAll("'", "''")}'`;
 }
 
@@ -26,8 +30,21 @@ export function buildSeedSql(manifests) {
     );
     for (const s of manifest.scenes) {
       const values = [
-        manifest.episodeId, s.id, s.order, s.type, s.title, s.part, s.durationSec, s.required,
-        s.prerequisites, s.checkpoint, s.forCheckpoint, s.beat, s.source, s.lines, s.bridge,
+        manifest.episodeId,
+        s.id,
+        s.order,
+        s.type,
+        s.title,
+        s.part,
+        s.durationSec,
+        s.required,
+        s.prerequisites,
+        s.checkpoint,
+        s.forCheckpoint,
+        s.beat,
+        s.source,
+        s.lines,
+        s.bridge,
       ].map(literal);
       out.push(
         `insert into public.scenes (episode_id, id, position, type, title, part, duration_sec, required, prerequisites, checkpoint, for_checkpoint, beat, source, lines, bridge) values (${values.join(", ")}) on conflict (episode_id, id) do nothing;`,
