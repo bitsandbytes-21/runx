@@ -3,7 +3,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { DemoEndPrompt } from "./DemoEndPrompt";
 import { LoadingPanel } from "./LoadingPanel";
+import { getSupabaseConfig } from "@/lib/env";
 import { GLASS_CARD, PRIMARY_BUTTON, SCREEN } from "./styles";
 import { RunScreen } from "./RunScreen";
 import { useRunSession, type Clock } from "./hooks/use-run-session";
@@ -165,11 +167,16 @@ function ActiveRun({
       state={state}
       isDemo={options.isDemo}
       afterRun={
-        saveError && (
-          <p role="alert" className="text-footnote text-error">
-            {saveError}
-          </p>
-        )
+        <>
+          {saveError && (
+            <p role="alert" className="text-footnote text-error">
+              {saveError}
+            </p>
+          )}
+          {options.isDemo && (
+            <DemoEndPrompt canSignUp={getSupabaseConfig() !== null} />
+          )}
+        </>
       }
       onPause={() => dispatch({ type: "PAUSE" })}
       onResume={() => dispatch({ type: "RESUME" })}
