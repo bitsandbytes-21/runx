@@ -5,6 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import { LoadingPanel } from "./LoadingPanel";
 import { RunScreen } from "./RunScreen";
 import { useRunSession, type Clock } from "./hooks/use-run-session";
+import { useProgressSync } from "./hooks/use-progress-sync";
+import {
+  createLocalProgressStore,
+  DEMO_PROGRESS_KEY,
+  GUEST_PROGRESS_KEY,
+} from "@/lib/progress/local-progress-store";
+import type { ProgressStore } from "@/lib/progress/progress-record";
 import {
   createHtmlAudioPort,
   createSilentAudioPort,
@@ -129,10 +136,29 @@ function ActiveRun({
     speed: options.speed,
     autoStart: true,
   });
+  const [store] = useState<ProgressStore>(() =>
+    createLocalProgressStore(
+      window.localStorage,
+      options.isDemo ? DEMO_PROGRESS_KEY : GUEST_PROGRESS_KEY,
+    ),
+  );
+  const { saveError } = useProgressSync(
+    state,
+    store,
+    manifest,
+    options.isDemo ? null : options.durationMin,
+  );
   return (
     <RunScreen
       state={state}
       isDemo={options.isDemo}
+      afterRun={
+        saveError && (
+          <p role="alert" className="text-footnote text-error">
+            {saveError}
+          </p>
+        )
+      }
       onPause={() => dispatch({ type: "PAUSE" })}
       onResume={() => dispatch({ type: "RESUME" })}
       onStop={() => dispatch({ type: "STOP" })}
