@@ -127,6 +127,103 @@ paths:
                   userId: { type: string, format: uuid }
                   role: { type: string, enum: [runner, editor] }
         "401": { $ref: "#/components/responses/Unauthenticated" }
+  /editor/episodes/{episodeId}/scenes:
+    get:
+      tags: [Editor]
+      summary: Draft scenes of an episode with validation problems
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+      responses:
+        "200":
+          description: The draft and what blocks publishing
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [manifest, problems]
+                properties:
+                  manifest: { $ref: "#/components/schemas/Manifest" }
+                  problems:
+                    type: array
+                    items: { $ref: "#/components/schemas/ManifestProblem" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /editor/episodes/{episodeId}/scenes/{sceneId}:
+    put:
+      tags: [Editor]
+      summary: Create or replace a draft scene
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+        - { name: sceneId, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Scene" }
+      responses:
+        "200":
+          description: Saved to the draft (not yet visible to runners)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Scene" }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /editor/episodes/{episodeId}/order:
+    put:
+      tags: [Editor]
+      summary: Reorder draft scenes
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sceneIds]
+              properties:
+                sceneIds:
+                  type: array
+                  description: Every scene id exactly once, in the new order
+                  items: { type: string }
+      responses:
+        "200": { description: Reordered }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /editor/episodes/{episodeId}/publish:
+    post:
+      tags: [Editor]
+      summary: Validate the draft and publish it as a new manifest version
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+      responses:
+        "200":
+          description: Published
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [episodeId, manifestVersion]
+                properties:
+                  episodeId: { type: string }
+                  manifestVersion: { type: integer }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "422":
+          description: The draft is invalid; nothing was published
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
   /health:
     get:
       tags: [Meta]
@@ -221,6 +318,13 @@ components:
                   code: { type: string }
                   message: { type: string }
                   sceneId: { type: string }
+    ManifestProblem:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, example: unknown_prerequisite }
+        message: { type: string }
+        sceneId: { type: string }
     EpisodeSummary:
       type: object
       required: [id, title, manifestVersion, sceneCount]

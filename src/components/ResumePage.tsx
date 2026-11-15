@@ -8,15 +8,17 @@ import { useNow } from "./hooks/use-now";
 import { useProgressStore } from "./hooks/use-progress-store";
 import { useSavedProgress } from "./hooks/use-saved-progress";
 import { EP1_MANIFEST } from "@/content/episodes";
+import { useManifest } from "./hooks/use-manifest";
 import { unlockAudio } from "@/lib/audio/audio-port";
 import { withTestParams } from "@/lib/run/run-options";
 
 export function ResumePage() {
   const router = useRouter();
+  const manifest = useManifest() ?? EP1_MANIFEST;
   const params = useSearchParams();
   const now = useNow();
   const store = useProgressStore();
-  const { load } = useSavedProgress(store, EP1_MANIFEST);
+  const { load } = useSavedProgress(store, manifest);
   const record =
     load?.kind === "ok" && load.record.status === "in_progress"
       ? load.record
@@ -38,7 +40,7 @@ export function ResumePage() {
   }
   return (
     <ResumeScreen
-      manifest={EP1_MANIFEST}
+      manifest={manifest}
       record={record}
       now={now}
       onContinue={({ durationMin, includeRecap }) => {

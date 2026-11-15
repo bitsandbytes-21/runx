@@ -18,7 +18,7 @@ import {
   type AudioPort,
 } from "@/lib/audio/audio-port";
 import { preloadClips } from "@/lib/audio/preload-clips";
-import { EP1_MANIFEST } from "@/content/episodes";
+import { useManifest } from "./hooks/use-manifest";
 import type { Manifest } from "@/lib/manifest/schema";
 import { buildTimeline, type Timeline } from "@/lib/scheduler/build-timeline";
 import { parseRunOptions, type RunOptions } from "@/lib/run/run-options";
@@ -36,7 +36,22 @@ export function RunPage() {
   const params = useSearchParams();
   const options = useMemo(() => parseRunOptions(params), [params]);
   const store = useProgressStore(options.isDemo ? "demo" : "run");
-  const manifest = EP1_MANIFEST;
+  const manifest = useManifest();
+  if (!manifest || !store) {
+    return <LoadingPanel done={0} total={0} onCancel={() => history.back()} />;
+  }
+  return <PlannedRun manifest={manifest} options={options} store={store} />;
+}
+
+function PlannedRun({
+  manifest,
+  options,
+  store,
+}: {
+  manifest: Manifest;
+  options: RunOptions;
+  store: ProgressStore;
+}) {
   const timeline = useMemo(
     () =>
       buildTimeline(manifest, options.durationMin, options.fromCheckpoint, {
@@ -56,9 +71,6 @@ export function RunPage() {
         </Link>
       </main>
     );
-  }
-  if (!store) {
-    return <LoadingPanel done={0} total={0} onCancel={() => history.back()} />;
   }
   return (
     <LoadedRun

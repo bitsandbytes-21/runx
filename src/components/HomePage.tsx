@@ -11,6 +11,7 @@ import { useNow } from "./hooks/use-now";
 import { useProgressStore } from "./hooks/use-progress-store";
 import { useSavedProgress } from "./hooks/use-saved-progress";
 import { EP1_MANIFEST } from "@/content/episodes";
+import { useManifest } from "./hooks/use-manifest";
 import { unlockAudio } from "@/lib/audio/audio-port";
 import { getBrowserSupabase } from "@/lib/db/supabase-browser";
 import { CHECKPOINT_LABELS } from "@/lib/manifest/labels";
@@ -18,12 +19,13 @@ import { withTestParams } from "@/lib/run/run-options";
 
 export function HomePage() {
   const router = useRouter();
+  const manifest = useManifest() ?? EP1_MANIFEST;
   const params = useSearchParams();
   const now = useNow();
   const auth = useAuth();
   const store = useProgressStore();
-  const { load, reload } = useSavedProgress(store, EP1_MANIFEST);
-  const guestImport = useGuestImport(auth, store, load, EP1_MANIFEST, reload);
+  const { load, reload } = useSavedProgress(store, manifest);
+  const guestImport = useGuestImport(auth, store, load, manifest, reload);
   const lastDurationMin =
     load?.kind === "ok"
       ? (load.record.lastDurationMin ?? undefined)
@@ -43,7 +45,7 @@ export function HomePage() {
     load &&
     store && (
       <ContinueCard
-        manifest={EP1_MANIFEST}
+        manifest={manifest}
         load={load}
         onRestart={() => {
           void store.clear(EP1_MANIFEST.episodeId).then(reload);
