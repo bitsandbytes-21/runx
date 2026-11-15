@@ -8,10 +8,14 @@ import type {
 } from "@/lib/progress/progress-record";
 
 /** Loads saved progress once; null while loading. */
-export function useSavedProgress(store: ProgressStore, manifest: Manifest) {
+export function useSavedProgress(
+  store: ProgressStore | null,
+  manifest: Manifest,
+) {
   const [load, setLoad] = useState<ProgressLoad | null>(null);
   const [revision, setRevision] = useState(0);
   useEffect(() => {
+    if (!store) return;
     let isCurrent = true;
     store
       .load(manifest)
