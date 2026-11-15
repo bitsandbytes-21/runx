@@ -1,28 +1,55 @@
-# Draft API contract (issue #15). Endpoints and schemas are provisional until the routes are built.
+# RunX public API (issue #15). Hand-written; tests/unit/openapi-routes.test.ts
+# fails CI if a route under src/app/api is missing here or documented but not built.
 openapi: 3.1.0
 info:
   title: RunX API
-  version: 0.1.0
-  description: Read episodes and scenes; read and write your own progress.
+  version: 1.0.0
+  description: |
+    Read published episodes and scenes; read and write your own progress.
+    Authenticated endpoints take a Supabase Auth access token as
+    `Authorization: Bearer <token>` (the web app sends its session cookie instead).
+    Every error uses the same shape: `{ "error": { "code", "message", "fields"? } }`.
 servers:
   - url: /api
+tags:
+  - name: Episodes
+  - name: Progress
+  - name: Account
+  - name: Editor
+  - name: Meta
 paths:
   /episodes:
     get:
+      tags: [Episodes]
       summary: List published episodes
       responses:
         "200":
-          description: Episodes
+          description: Published episodes
           content:
             application/json:
               schema:
                 type: array
-                items: { $ref: "#/components/schemas/Episode" }
+                items: { $ref: "#/components/schemas/EpisodeSummary" }
+  /episodes/{episodeId}:
+    get:
+      tags: [Episodes]
+      summary: Get the published manifest of an episode
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+      responses:
+        "200":
+          description: The validated, published manifest
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Manifest" }
+        "404": { $ref: "#/components/responses/NotFound" }
   /episodes/{episodeId}/scenes:
     get:
-      summary: List the scenes of a published episode
+      tags: [Episodes]
+      summary: List the published scenes of an episode in story order
+      description: Unpublished draft scenes never appear here.
       parameters:
-        - { name: episodeId, in: path, required: true, schema: { type: string } }
+        - $ref: "#/components/parameters/EpisodeId"
       responses:
         "200":
           description: Scenes in story order
@@ -31,56 +58,243 @@ paths:
               schema:
                 type: array
                 items: { $ref: "#/components/schemas/Scene" }
-        "404": { description: Episode not found }
+        "404": { $ref: "#/components/responses/NotFound" }
   /progress/{episodeId}:
     get:
+      tags: [Progress]
       summary: Get my progress for an episode
       security: [{ bearerAuth: [] }]
       parameters:
-        - { name: episodeId, in: path, required: true, schema: { type: string } }
+        - $ref: "#/components/parameters/EpisodeId"
       responses:
         "200":
           description: My progress
           content:
             application/json:
               schema: { $ref: "#/components/schemas/Progress" }
-        "401": { description: Not signed in }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "404": { $ref: "#/components/responses/NotFound" }
     put:
-      summary: Save my progress (must be a valid checkpoint)
+      tags: [Progress]
+      summary: Save my progress
+      description: |
+        The checkpoint must exist in the published episode. An in-progress save
+        needs a checkpoint; a complete episode has none. The server sets
+        `lastPlayedAt` and `manifestVersion`.
       security: [{ bearerAuth: [] }]
       parameters:
-        - { name: episodeId, in: path, required: true, schema: { type: string } }
+        - $ref: "#/components/parameters/EpisodeId"
       requestBody:
         required: true
         content:
           application/json:
-            schema: { $ref: "#/components/schemas/Progress" }
+            schema: { $ref: "#/components/schemas/ProgressInput" }
+            examples:
+              saved: { value: { checkpoint: CP2, status: in_progress, lastDurationMin: 30 } }
+              complete: { value: { checkpoint: null, status: complete } }
       responses:
-        "200": { description: Saved }
-        "400": { description: Invalid checkpoint }
-        "401": { description: Not signed in }
+        "200":
+          description: Saved
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Progress" }
+        "400": { $ref: "#/components/responses/InvalidInput" }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [Progress]
+      summary: Clear my progress (restart the episode)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - $ref: "#/components/parameters/EpisodeId"
+      responses:
+        "204": { description: Cleared }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+  /me:
+    get:
+      tags: [Account]
+      summary: Who am I and what is my role
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200":
+          description: The caller
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [userId, role]
+                properties:
+                  userId: { type: string, format: uuid }
+                  role: { type: string, enum: [runner, editor] }
+        "401": { $ref: "#/components/responses/Unauthenticated" }
+  /health:
+    get:
+      tags: [Meta]
+      summary: App and database health
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Health" }
+        "503":
+          description: The database is not reachable
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Health" }
+  /openapi:
+    get:
+      tags: [Meta]
+      summary: This document as YAML
+      responses:
+        "200":
+          description: OpenAPI 3.1 document
+          content:
+            application/yaml: {}
+  /docs:
+    get:
+      tags: [Meta]
+      summary: Interactive API documentation (Swagger UI)
+      responses:
+        "200":
+          description: HTML page
+          content:
+            text/html: {}
 components:
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
+  parameters:
+    EpisodeId:
+      name: episodeId
+      in: path
+      required: true
+      schema: { type: string, example: ep1 }
+  responses:
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Unauthenticated:
+      description: Missing or invalid token
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Forbidden:
+      description: Signed in, but not an editor
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    InvalidInput:
+      description: The input is not valid; nothing was written
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+          example:
+            error:
+              code: invalid_input
+              message: The progress is not valid
+              fields: { checkpoint: Episode ep1 has no checkpoint CP9 }
   schemas:
-    Episode:
+    Error:
       type: object
-      required: [id, title]
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [unauthenticated, forbidden, not_found, invalid_input, invalid_manifest, server_error]
+            message: { type: string }
+            fields:
+              type: object
+              additionalProperties: { type: string }
+              description: Field-level messages for invalid input
+            problems:
+              type: array
+              description: Validator problems for invalid_manifest
+              items:
+                type: object
+                properties:
+                  code: { type: string }
+                  message: { type: string }
+                  sceneId: { type: string }
+    EpisodeSummary:
+      type: object
+      required: [id, title, manifestVersion, sceneCount]
       properties:
         id: { type: string }
         title: { type: string }
+        manifestVersion: { type: integer, minimum: 1 }
+        sceneCount: { type: integer }
+    Manifest:
+      type: object
+      required: [episodeId, manifestVersion, title, scenes]
+      properties:
+        episodeId: { type: string }
+        manifestVersion: { type: integer, minimum: 1 }
+        title: { type: string }
+        scenes:
+          type: array
+          items: { $ref: "#/components/schemas/Scene" }
+    Line:
+      type: object
+      required: [id, speaker, text, audioUrl, durationSec]
+      properties:
+        id: { type: string }
+        speaker: { type: string, enum: [quixote, sancho] }
+        text: { type: string, description: Caption text }
+        audioUrl: { type: string }
+        durationSec: { type: number, exclusiveMinimum: 0 }
     Scene:
       type: object
-      required: [id, type, durationSec]
+      required: [id, type, order, title, part, durationSec, required, prerequisites, checkpoint, forCheckpoint, beat, source, lines, bridge]
       properties:
         id: { type: string }
         type:
           type: string
           enum: [opening, core, optional, climax, ending, signoff, recap, compressed_ending]
-        durationSec: { type: integer, minimum: 1 }
-    Progress:
+        order: { type: integer }
+        title: { type: string }
+        part: { type: string, enum: [warmup, rising, climax, epilogue] }
+        durationSec: { type: number, exclusiveMinimum: 0 }
+        required: { type: boolean }
+        prerequisites:
+          type: array
+          items: { type: string }
+        checkpoint: { type: [string, "null"], enum: [CP1, CP2, CP3, null] }
+        forCheckpoint: { type: [string, "null"], enum: [CP1, CP2, CP3, null] }
+        beat: { type: [string, "null"], enum: [encourage, charge, null] }
+        source: { type: string }
+        lines:
+          type: array
+          items: { $ref: "#/components/schemas/Line" }
+        bridge:
+          oneOf:
+            - { $ref: "#/components/schemas/Line" }
+            - { type: "null" }
+    ProgressInput:
       type: object
       required: [checkpoint, status]
       properties:
-        checkpoint: { type: string, enum: [CP1, CP2, CP3] }
+        checkpoint: { type: [string, "null"], enum: [CP1, CP2, CP3, null] }
         status: { type: string, enum: [in_progress, complete] }
+        lastDurationMin: { type: [integer, "null"], minimum: 15, maximum: 60 }
+    Progress:
+      type: object
+      required: [episodeId, manifestVersion, checkpoint, status, lastPlayedAt, lastDurationMin]
+      properties:
+        episodeId: { type: string }
+        manifestVersion: { type: integer }
+        checkpoint: { type: [string, "null"], enum: [CP1, CP2, CP3, null] }
+        status: { type: string, enum: [in_progress, complete] }
+        lastPlayedAt: { type: string, format: date-time }
+        lastDurationMin: { type: [integer, "null"], minimum: 15, maximum: 60 }
+    Health:
+      type: object
+      required: [status, database]
+      properties:
+        status: { type: string, enum: [ok, degraded] }
+        database: { type: string, enum: [ok, not_configured, error] }

@@ -1,8 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
+  // The API serves the hand-written OpenAPI file from docs/ at runtime.
+  outputFileTracingIncludes: {
+    "/api/openapi": ["./docs/api/openapi.yaml"],
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {
