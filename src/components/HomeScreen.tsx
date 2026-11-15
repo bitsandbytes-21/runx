@@ -108,6 +108,15 @@ export function HomeScreen({
       </Link>
 
       {accountRow}
+
+      <footer className="mt-auto text-center text-footnote text-fg-2">
+        <a
+          href="/api/docs"
+          className="inline-flex min-h-tap items-center underline"
+        >
+          Public API docs
+        </a>
+      </footer>
     </main>
   );
 }

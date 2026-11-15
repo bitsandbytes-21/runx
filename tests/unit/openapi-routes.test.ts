@@ -21,9 +21,9 @@ function implementedRoutes(): string[] {
             .replace(/\[(\w+)\]/g, "{$1}");
         for (const method of METHODS) {
           if (
-            new RegExp(`export (async function|const) ${method}\\b`).test(
-              source,
-            )
+            new RegExp(
+              `export (async function|function|const) ${method}\\b`,
+            ).test(source)
           )
             routes.push(`${method} ${url}`);
         }

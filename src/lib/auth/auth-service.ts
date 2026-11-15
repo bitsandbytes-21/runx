@@ -11,9 +11,7 @@ export interface AuthClient {
     data: { user: { identities?: unknown[] } | null; session: unknown };
     error: { message: string } | null;
   }>;
-  signInWithPassword: (
-    credentials: Credentials,
-  ) => Promise<{
+  signInWithPassword: (credentials: Credentials) => Promise<{
     data: { session: unknown };
     error: { message: string } | null;
   }>;

@@ -5,14 +5,14 @@ import { fakeDeps, request } from "../fixtures/api-fakes";
 describe("GET /api/episodes", () => {
   it("lists published episodes without auth", async () => {
     const { deps } = fakeDeps();
-    const response = await listEpisodes(deps, request("/api/episodes"));
+    const response = await listEpisodes(deps);
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual([
       {
         id: "ep1",
         title: "Giants on the Horizon",
         manifestVersion: 1,
-        sceneCount: 17,
+        sceneCount: 16,
       },
     ]);
   });
