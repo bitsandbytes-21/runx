@@ -1,7 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { AccountRow } from "./AccountRow";
 import { ContinueCard } from "./ContinueCard";
+import { useAuth } from "./hooks/use-auth";
+import { getBrowserSupabase } from "@/lib/db/supabase-browser";
 import { HomeScreen } from "./HomeScreen";
 import { useNow } from "./hooks/use-now";
 import { useProgressStore } from "./hooks/use-progress-store";
@@ -14,6 +17,7 @@ export function HomePage() {
   const router = useRouter();
   const params = useSearchParams();
   const now = useNow();
+  const auth = useAuth();
   const store = useProgressStore();
   const { load, reload } = useSavedProgress(store, EP1_MANIFEST);
   const lastDurationMin =
@@ -36,6 +40,14 @@ export function HomePage() {
             }}
           />
         )
+      }
+      accountRow={
+        <AccountRow
+          auth={auth}
+          onLogOut={() => {
+            void getBrowserSupabase()?.auth.signOut();
+          }}
+        />
       }
       onStart={(durationMin) => {
         // Inside the tap handler, so iOS allows the run's audio later.
